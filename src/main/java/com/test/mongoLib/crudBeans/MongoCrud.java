@@ -20,7 +20,6 @@ public class MongoCrud {
 	private MongoTemplate template;
 
 	public MongoCrud(MongoTemplate template) {
-		super();
 		this.template = template;
 	}
 
@@ -34,14 +33,26 @@ public class MongoCrud {
 		}
 	}
 
+	/**
+	 * Elimina la coleccion que coincida con el nombre en el parametro
+	 * @param String nombre de la coleccion a eliminar
+	 * */
 	public void borrarColeccion(String coleccion) {
 		template.dropCollection(coleccion);
 	}
 
+	/**
+	 * Regresa una lista con todas las alcaldias registradas 
+	 * */
 	public List<Alcaldia> alcaldiaObtenerTodo() {
 		return template.findAll(Alcaldia.class, "alcaldia");
 	}
 
+	/**
+	 * Regresa los registros de una unidad 
+	 * @param Entero, id de la unidad a buscar
+	 * 
+	 * */
 	public List<UbicacionUnidades> seguimientoUnidad(Integer id) {
 		Query query = new Query();
 
@@ -51,10 +62,17 @@ public class MongoCrud {
 		return template.find(query, UbicacionUnidades.class, "ubicacion");
 	}
 
+	/**
+	 * Regresa una lista de todas las unidades de metrobus registradas
+	 * */
 	public List<Unidad> unidadObtenerTodo() {
 		return template.findAll(Unidad.class, "unidad");
 	}
-
+	/**
+	 * Regresa un Optional que puede contener un Objeto Alcaldia 
+	 * @param idAlcaldia, entero
+	 * @return Optional<Alcaldia>
+	 * */
 	public Optional<Alcaldia> obtenerAlcaldia(Integer idAlcaldia) {
 		Alcaldia alcaldia = template.findOne(new Query().addCriteria(Criteria.where("idAlcaldia").is(idAlcaldia)),
 				Alcaldia.class);
